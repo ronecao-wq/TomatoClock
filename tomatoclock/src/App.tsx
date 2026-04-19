@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
-const WORK_TIME = 25 * 60; // 25 minutes
+const WORK_TIME = 1 * 60; // 25 minutes
 const SHORT_BREAK = 5 * 60; // 5 minutes
 const LONG_BREAK = 15 * 60; // 15 minutes
 
