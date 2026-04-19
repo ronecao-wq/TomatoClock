@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
+import {
+  isNotificationSupported,
+  requestNotificationPermission,
+  sendSessionNotification,
+  closeActiveNotification,
+} from './services/notification';
 
 const WORK_TIME = 1 * 60; // 25 minutes
 const SHORT_BREAK = 5 * 60; // 5 minutes
@@ -46,14 +52,22 @@ function App() {
       }, 1000);
     } else if (timeLeft === 0) {
       setIsActive(false);
-      if (mode === 'work') {
-        setSessionsCompleted((prev) => prev + 1);
-      }
-      // Auto switch to break after work, or back to work after break
-      if (mode === 'work') {
-        const nextMode = sessionsCompleted % 4 === 3 ? 'longBreak' : 'shortBreak';
+
+      // Capture completed session type BEFORE any state changes or mode switches
+      const completedSessionType = mode;
+
+      // Send notification for completed session
+      sendSessionNotification(completedSessionType);
+
+      if (completedSessionType === 'work') {
+        const newSessionsCompleted = sessionsCompleted + 1;
+        setSessionsCompleted(newSessionsCompleted);
+
+        // Determine next mode based on whether this was the 4th work session (index 3, 7, 11...)
+        const nextMode = newSessionsCompleted % 4 === 0 ? 'longBreak' : 'shortBreak';
         switchMode(nextMode);
       } else {
+        // After any break, switch back to work
         switchMode('work');
       }
     }
@@ -68,6 +82,13 @@ function App() {
     setIsActive(false);
     setTimeLeft(MODES[mode].time);
   };
+
+  // Cleanup active notification on unmount
+  useEffect(() => {
+    return () => {
+      closeActiveNotification();
+    };
+  }, []);
 
   const progress = ((MODES[mode].time - timeLeft) / MODES[mode].time) * 100;
 
@@ -88,6 +109,20 @@ function App() {
             </button>
           ))}
         </div>
+
+        {isNotificationSupported() && (
+          <div className="notification-permission">
+            <button
+              className="btn-notify"
+              onClick={requestNotificationPermission}
+              disabled={Notification.permission === 'granted'}
+            >
+              {Notification.permission === 'granted'
+                ? '✅ Notifications Enabled'
+                : '🔔 Enable Notifications'}
+            </button>
+          </div>
+        )}
 
         <div
           className="timer-display"

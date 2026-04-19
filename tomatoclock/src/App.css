@@ -60,6 +60,34 @@ h1 {
   color: white;
 }
 
+.notification-permission {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.btn-notify {
+  padding: 0.5rem 1rem;
+  border: 2px solid #4ecdc4;
+  background: transparent;
+  color: #4ecdc4;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-notify:hover:not(:disabled) {
+  background: #4ecdc4;
+  color: white;
+}
+
+.btn-notify:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  border-color: #2ecc71;
+  color: #2ecc71;
+}
+
 .timer-display {
   position: relative;
   margin: 30px 0;
