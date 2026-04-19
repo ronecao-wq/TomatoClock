@@ -8,8 +8,8 @@ import {
 } from './services/notification';
 
 const WORK_TIME = 1 * 60; // 25 minutes
-const SHORT_BREAK = 5 * 60; // 5 minutes
-const LONG_BREAK = 15 * 60; // 15 minutes
+const SHORT_BREAK = 1 * 60; // 5 minutes
+const LONG_BREAK = 1 * 60; // 15 minutes
 
 type Mode = 'work' | 'shortBreak' | 'longBreak';
 
