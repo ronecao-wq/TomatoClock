@@ -30,10 +30,10 @@ let activeNotification: Notification | null = null;
  * Close any active notification
  */
 export function closeActiveNotification(): void {
-  if (activeNotification) {
+  if (activeNotification && typeof activeNotification.close === 'function') {
     activeNotification.close();
-    activeNotification = null;
   }
+  activeNotification = null;
 }
 
 /**
