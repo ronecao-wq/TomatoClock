@@ -13,7 +13,10 @@
       "Bash(git merge:*)",
       "Bash(git branch:*)",
       "Bash(git worktree:*)",
-      "Bash(npx serve:*)"
+      "Bash(npx serve:*)",
+      "Bash(mkdir:*)",
+      "Bash(git push:*)",
+      "Bash(git remote:*)"
     ]
   }
 }
